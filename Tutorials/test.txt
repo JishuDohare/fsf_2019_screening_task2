@@ -1,3 +1,4 @@
 this is a new file
 this is a new file
 this is the 2nd line text
+i added this line after opening the test file from the editor
