@@ -13,6 +13,7 @@ class Window(QWidget):
         self.lbl = QLabel('Which do you like best?')
         self.dog = QRadioButton('Dogs')
         self.cat = QRadioButton('Cats')
+        self.pussy = QRadioButton("Chick")
         self.btn = QPushButton('Select')
 
         layout = QVBoxLayout()

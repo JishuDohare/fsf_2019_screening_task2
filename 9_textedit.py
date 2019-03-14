@@ -9,7 +9,7 @@ class Notepad(QWidget):
         self.text = QTextEdit(self)
         self.clr_btn = QPushButton('Clear')
 
-        self.init_ui()  
+        self.init_ui()
 
     def init_ui(self):
         layout = QVBoxLayout()
