@@ -1,5 +1,6 @@
 import sys, csv, os
 from PyQt5.QtWidgets import *
+from PyQt5 import QtGui
 
 
 class App(QWidget):
@@ -8,6 +9,7 @@ class App(QWidget):
         self.title = "FOSSEE SCREENING TASK 2"
         self.upleft, self.downleft, self.upright, self.downright = 40, 800, 60, 800
         self.filename = (QFileDialog.getOpenFileName(self, 'Open CSV', os.getenv('HOME'), 'CSV(*.csv)'))[0]
+        self.loadCsv()
         self.initUI()
 
     def initUI(self):
@@ -17,26 +19,31 @@ class App(QWidget):
         # self.createTable()
         self.loadbtn = QPushButton(self)
         self.loadbtn.setText("Load the csv file")
-        self.loadbtn.clicked.connect(self.loadCsv)
+        # self.loadbtn.clicked.connect(self.loadCsv)
 
         self.layout = QVBoxLayout()
-        # self.layout.addWidget(self.twig)
         self.layout.addWidget(self.loadbtn)
+        self.layout.addWidget(self.twig)
         self.setLayout(self.layout)
         self.show()
 
     def loadCsv(self):
-        with open(self.filename, 'r') as fileinput:
-            for row in csv.reader(fileinput):
-                print(row)
+        fileinput = open(self.filename, 'r')
+        self.data = list(csv.reader(fileinput))
+        self.row_size = len(self.data)
+        self.column_size = max([len(self.data[0]), len(self.data[1]), len(self.data[2])])
+        self.createTable()
 
     def createTable(self):
         self.twig = QTableWidget()
-        self.twig.setRowCount(5)
-        self.twig.setColumnCount(5)
-        for i in range(5):
-            for j in range(5):
-                point = "Cell ("+str(i+1)+", "+str(j+1)+")"
+        self.twig.setRowCount(self.row_size)
+        self.twig.setColumnCount(self.column_size)
+        for i in range(self.row_size):
+            for j in range(self.column_size):
+                try:
+                    point = str(self.data[i][j])
+                except:
+                    point = ""
                 self.twig.setItem(i, j, QTableWidgetItem(point))
         self.twig.move(0, 0)
 
