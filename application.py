@@ -7,16 +7,16 @@ class App(QWidget):
         super().__init__()
         self.title = "FOSSEE SCREENING TASK 2"
         self.upleft, self.downleft, self.upright, self.downright = 0, 800, 0, 800
-        self.initUI()
         self.filename = "C:\\Users\\LENOVO\\Desktop\\data.csv"
+        self.initUI()
 
-    def loadCsv(self, filename):
-        with open(filename, 'r') as fileinput:
+    def loadCsv(self):
+        with open(self.filename, 'r') as fileinput:
             for row in csv.reader(fileinput):
                 print(row)
 
-    def on_pushButtonLoad_clicked(self):
-        self.loadCsv(self.fileName)
+    # def on_pushButtonLoad_clicked(self):
+    #     self.loadCsv(self.fileName)
 
     def initUI(self):
         self.setWindowTitle(self.title)
@@ -25,7 +25,7 @@ class App(QWidget):
         # self.createTable()
         self.loadbtn = QPushButton(self)
         self.loadbtn.setText("Load the csv file")
-        self.loadbtn.clicked.connect(self.on_pushButtonLoad_clicked)
+        self.loadbtn.clicked.connect(self.loadCsv)
 
         self.layout = QVBoxLayout()
         # self.layout.addWidget(self.twig)
