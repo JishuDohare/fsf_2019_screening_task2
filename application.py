@@ -10,14 +10,6 @@ class App(QWidget):
         self.filename = (QFileDialog.getOpenFileName(self, 'Open CSV', os.getenv('HOME'), 'CSV(*.csv)'))[0]
         self.initUI()
 
-    def loadCsv(self):
-        with open(self.filename, 'r') as fileinput:
-            for row in csv.reader(fileinput):
-                print(row)
-
-    # def on_pushButtonLoad_clicked(self):
-    #     self.loadCsv(self.fileName)
-
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
@@ -33,6 +25,10 @@ class App(QWidget):
         self.setLayout(self.layout)
         self.show()
 
+    def loadCsv(self):
+        with open(self.filename, 'r') as fileinput:
+            for row in csv.reader(fileinput):
+                print(row)
 
     def createTable(self):
         self.twig = QTableWidget()
