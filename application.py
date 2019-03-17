@@ -1,4 +1,4 @@
-import sys, csv
+import sys, csv, os
 from PyQt5.QtWidgets import *
 
 
@@ -6,8 +6,8 @@ class App(QWidget):
     def __init__(self):
         super().__init__()
         self.title = "FOSSEE SCREENING TASK 2"
-        self.upleft, self.downleft, self.upright, self.downright = 0, 800, 0, 800
-        self.filename = "C:\\Users\\LENOVO\\Desktop\\data.csv"
+        self.upleft, self.downleft, self.upright, self.downright = 40, 800, 60, 800
+        self.filename = (QFileDialog.getOpenFileName(self, 'Open CSV', os.getenv('HOME'), 'CSV(*.csv)'))[0]
         self.initUI()
 
     def loadCsv(self):
