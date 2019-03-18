@@ -1,5 +1,6 @@
 import sys, csv, os
 from PyQt5.QtWidgets import *
+from PyQt5 import QtCore
 
 
 class App(QWidget):
@@ -44,6 +45,7 @@ class App(QWidget):
                 except:
                     point = ""
                 self.twig.setItem(i, j, QTableWidgetItem(point))
+                self.twig.item(i, j).setFlags(QtCore.Qt.ItemIsEnabled)
         self.twig.move(0, 0)
         self.layout.addWidget(self.twig)
         self.setLayout(self.layout)
