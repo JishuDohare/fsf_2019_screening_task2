@@ -31,16 +31,16 @@ class App(QWidget):
         self.file.addAction(self.save_action)
         self.file.addAction(self.add_data_action)
 
-
+        self.load_action.triggered.connect(self.loadCsv)
 
 
         # self.createTable()
-        self.loadbtn = QPushButton(self)
-        self.loadbtn.setText("Load the csv file")
-        self.loadbtn.clicked.connect(self.loadCsv)
+        # self.loadbtn = QPushButton(self)
+        # self.loadbtn.setText("Load the csv file")
+        # self.loadbtn.clicked.connect(self.loadCsv)
 
         self.layout = QVBoxLayout()
-        self.layout.addWidget(self.loadbtn)
+        # self.layout.addWidget(self.loadbtn)
         self.layout.addWidget(self.bar)
         # self.layout.addWidget(self.twig)
         self.setLayout(self.layout)
