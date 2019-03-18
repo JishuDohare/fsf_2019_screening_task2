@@ -40,6 +40,7 @@ class App(QWidget):
 
         #command for File menu-options
         self.load_action.triggered.connect(self.loadCsv)
+        self.save_action.triggered.connect(self.saveData)
 
         #command for Edit menu-options
         self.edit_action.triggered.connect(self.editData)
@@ -89,6 +90,10 @@ class App(QWidget):
         for i in range(self.row_size):
             for j in range(self.column_size):
                 self.twig.setItem(i, j, QTableWidgetItem(self.twig.item(i, j).text()))
+
+    def saveData(self):
+        #give a pop-up to ask if want to save change in the already existing file
+        #or want to save to another file compeletely
 
 
 app = QApplication(sys.argv)
