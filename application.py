@@ -20,6 +20,7 @@ class App(QWidget):
         self.file = self.bar.addMenu('File')
         self.edit = self.bar.addMenu('Edit')
 
+        #For File Option
         self.load_action = QAction('&Load', self)
         self.load_action.setShortcut('Ctrl+O')
         self.save_action = QAction('&Save', self)
@@ -30,6 +31,11 @@ class App(QWidget):
         self.file.addAction(self.load_action)
         self.file.addAction(self.save_action)
         self.file.addAction(self.add_data_action)
+
+        #For Edit Option
+        self.edit_action = QAction('&Edit', self)
+        self.edit_action.setShortcut('Ctrl+E')
+        self.edit.addAction(self.edit_action)
 
         self.load_action.triggered.connect(self.loadCsv)
 
