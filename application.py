@@ -83,20 +83,12 @@ class App(QWidget):
         self.show()
 
     def editData(self):
-        self.twig = QTableWidget()
-        self.twig.setRowCount(self.row_size)
-        self.twig.setColumnCount(self.column_size)
+        # self.twig = QTableWidget()
+        # self.twig.setRowCount(self.row_size)
+        # self.twig.setColumnCount(self.column_size)
         for i in range(self.row_size):
             for j in range(self.column_size):
-                try:
-                    point = str(self.data[i][j])
-                except:
-                    point = ""
-                self.twig.setItem(i, j, QTableWidgetItem(point))
-        self.twig.move(0, 0)
-        self.layout.addWidget(self.twig)
-        self.setLayout(self.layout)
-        self.show()
+                self.twig.setItem(i, j, QTableWidgetItem(self.twig.item(i, j).text()))
 
 
 app = QApplication(sys.argv)
