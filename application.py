@@ -1,6 +1,5 @@
 import sys, csv, os
 from PyQt5.QtWidgets import *
-from PyQt5 import QtGui
 
 
 class App(QWidget):
@@ -8,8 +7,7 @@ class App(QWidget):
         super().__init__()
         self.title = "FOSSEE SCREENING TASK 2"
         self.upleft, self.downleft, self.upright, self.downright = 40, 800, 60, 800
-        self.filename = (QFileDialog.getOpenFileName(self, 'Open CSV', os.getenv('HOME'), 'CSV(*.csv)'))[0]
-        self.loadCsv()
+        # self.loadCsv()
         self.initUI()
 
     def initUI(self):
@@ -19,15 +17,16 @@ class App(QWidget):
         # self.createTable()
         self.loadbtn = QPushButton(self)
         self.loadbtn.setText("Load the csv file")
-        # self.loadbtn.clicked.connect(self.loadCsv)
+        self.loadbtn.clicked.connect(self.loadCsv)
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.loadbtn)
-        self.layout.addWidget(self.twig)
+        # self.layout.addWidget(self.twig)
         self.setLayout(self.layout)
         self.show()
 
     def loadCsv(self):
+        self.filename = (QFileDialog.getOpenFileName(self, 'Open CSV', os.getenv('HOME'), 'CSV(*.csv)'))[0]
         fileinput = open(self.filename, 'r')
         self.data = list(csv.reader(fileinput))
         self.row_size = len(self.data)
@@ -46,6 +45,9 @@ class App(QWidget):
                     point = ""
                 self.twig.setItem(i, j, QTableWidgetItem(point))
         self.twig.move(0, 0)
+        self.layout.addWidget(self.twig)
+        self.setLayout(self.layout)
+        self.show()
 
 
 app = QApplication(sys.argv)
