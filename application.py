@@ -15,6 +15,25 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
 
+        #Make MenuBar
+        self.bar = QMainWindow(self).menuBar()
+        self.file = self.bar.addMenu('File')
+        self.edit = self.bar.addMenu('Edit')
+
+        self.load_action = QAction('&Load', self)
+        self.load_action.setShortcut('Ctrl+O')
+        self.save_action = QAction('&Save', self)
+        self.save_action.setShortcut('Ctrl+S')
+        self.add_data_action = QAction('&Add Data', self)
+        self.add_data_action.setShortcut('Ctrl+A')
+
+        self.file.addAction(self.load_action)
+        self.file.addAction(self.save_action)
+        self.file.addAction(self.add_data_action)
+
+
+
+
         # self.createTable()
         self.loadbtn = QPushButton(self)
         self.loadbtn.setText("Load the csv file")
@@ -22,6 +41,7 @@ class App(QWidget):
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.loadbtn)
+        self.layout.addWidget(self.bar)
         # self.layout.addWidget(self.twig)
         self.setLayout(self.layout)
         self.show()
