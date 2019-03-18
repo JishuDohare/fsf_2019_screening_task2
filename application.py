@@ -37,7 +37,12 @@ class App(QWidget):
         self.edit_action.setShortcut('Ctrl+E')
         self.edit.addAction(self.edit_action)
 
+
+        #command for File menu-options
         self.load_action.triggered.connect(self.loadCsv)
+
+        #command for Edit menu-options
+        self.edit_action.triggered.connect(self.editData)
 
 
         # self.createTable()
@@ -71,7 +76,23 @@ class App(QWidget):
                 except:
                     point = ""
                 self.twig.setItem(i, j, QTableWidgetItem(point))
-                self.twig.item(i, j).setFlags(QtCore.Qt.ItemIsEnabled)
+                self.twig.item(i, j).setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+        self.twig.move(0, 0)
+        self.layout.addWidget(self.twig)
+        self.setLayout(self.layout)
+        self.show()
+
+    def editData(self):
+        self.twig = QTableWidget()
+        self.twig.setRowCount(self.row_size)
+        self.twig.setColumnCount(self.column_size)
+        for i in range(self.row_size):
+            for j in range(self.column_size):
+                try:
+                    point = str(self.data[i][j])
+                except:
+                    point = ""
+                self.twig.setItem(i, j, QTableWidgetItem(point))
         self.twig.move(0, 0)
         self.layout.addWidget(self.twig)
         self.setLayout(self.layout)
