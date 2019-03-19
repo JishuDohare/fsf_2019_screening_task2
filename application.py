@@ -34,6 +34,7 @@ class App(QWidget):
         self.save = QAction('Save Changes in Current File', self)
         self.save.setShortcut('Ctrl+S')
         self.new_save = QAction('Save as New File', self)
+        self.new_save.setShortcut('Ctrl+Shift+S')
         self.save_action.addAction(self.save)
         self.save_action.addAction(self.new_save)
 
@@ -111,8 +112,17 @@ class App(QWidget):
             QMessageBox.about(self, "Error", "First Load a .csv File")
         else:
             if opt:
-                #save in current file
-                print("Will save in Loaded file itself")
+                #Will save in Loaded file itself
+                data = []
+                for i in range(self.row_size):
+                    rowww = []
+                    for j in range(self.column_size):
+                        rowww.append(self.twig.item(i, j).text())
+                    print(rowww)
+                    data.append(rowww)
+                with open(self.filename, 'w', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerows(data)
             else:
                 #save in new file
                 print("Will save in new File")
