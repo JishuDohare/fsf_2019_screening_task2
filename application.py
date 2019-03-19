@@ -23,12 +23,15 @@ class App(QWidget):
         #For File Option
         self.load_action = QAction('&Load', self)
         self.load_action.setShortcut('Ctrl+O')
-
-        self.add_data_action = QAction('&Add Data', self)
-        self.add_data_action.setShortcut('Ctrl+A')
-
         self.file.addAction(self.load_action)
-        self.file.addAction(self.add_data_action)
+
+        self.add_data = self.file.addMenu('Add Data')
+        self.new_column = QAction('New Column', self)
+        self.new_column.setShortcut('Ctrl+Shift+C')
+        self.new_row = QAction('New Row', self)
+        self.new_row.setShortcut('Ctrl+Shift+R')
+        self.add_data.addAction(self.new_column)
+        self.add_data.addAction(self.new_row)
 
         self.save_action = self.file.addMenu('Save')
         self.save = QAction('Save', self)
@@ -51,6 +54,8 @@ class App(QWidget):
         self.load_action.triggered.connect(self.loadCsv)
         self.save.triggered.connect(lambda: self.saveData(True))
         self.new_save.triggered.connect(lambda: self.saveData(False))
+        self.new_column.triggered.connect(lambda: self.addData('Col'))
+        self.new_row.triggered.connect(lambda: self.addData('Row'))
 
         #command for Edit menu-options
         self.edit_action.triggered.connect(self.editData)
@@ -131,6 +136,13 @@ class App(QWidget):
                     with open(path[0], 'w', newline='') as f:
                         writer = csv.writer(f)
                         writer.writerows(data)
+
+    def addData(self, flag):
+        if not self.fileOPened:
+            QMessageBox.about(self, "Error", "First Load a .csv File")
+        else:
+            print(flag)
+            pass
 
 app = QApplication(sys.argv)
 ex = App()
