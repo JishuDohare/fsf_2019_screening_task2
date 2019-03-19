@@ -142,6 +142,10 @@ class App(QWidget):
             QMessageBox.about(self, "Error", "First Load a .csv File")
         else:
             print(flag)
+            if flag=='Col':
+                pass
+            else:
+                flag=='Row':
             pass
 
 app = QApplication(sys.argv)
