@@ -32,6 +32,7 @@ class App(QWidget):
 
         self.save_action = self.file.addMenu('Save')
         self.save = QAction('Save Changes in Current File', self)
+        self.save.setShortcut('Ctrl+S')
         self.new_save = QAction('Save as New File', self)
         self.save_action.addAction(self.save)
         self.save_action.addAction(self.new_save)
@@ -46,8 +47,8 @@ class App(QWidget):
 
         #command for File menu-options
         self.load_action.triggered.connect(self.loadCsv)
-        self.save.triggered.connect(self.saveData)
-        self.new_save.triggered.connect(self.saveData)
+        self.save.triggered.connect(lambda: self.saveData(True))
+        self.new_save.triggered.connect(lambda: self.saveData(False))
 
         #command for Edit menu-options
         self.edit_action.triggered.connect(self.editData)
@@ -98,10 +99,10 @@ class App(QWidget):
             for j in range(self.column_size):
                 self.twig.setItem(i, j, QTableWidgetItem(self.twig.item(i, j).text()))
 
-    def saveData(self):
+    def saveData(self, opt):
         #give a pop-up to ask if want to save change in the already existing file
         #or want to save to another file compeletely
-
+        print(opt)
         pass
 
 
