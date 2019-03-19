@@ -23,14 +23,20 @@ class App(QWidget):
         #For File Option
         self.load_action = QAction('&Load', self)
         self.load_action.setShortcut('Ctrl+O')
-        self.save_action = QAction('&Save', self)
-        self.save_action.setShortcut('Ctrl+S')
+
         self.add_data_action = QAction('&Add Data', self)
         self.add_data_action.setShortcut('Ctrl+A')
 
         self.file.addAction(self.load_action)
-        self.file.addAction(self.save_action)
         self.file.addAction(self.add_data_action)
+
+        self.save_action = self.file.addMenu('Save')
+        self.save = QAction('Save Changes in Current File', self)
+        self.new_save = QAction('Save as New File', self)
+        self.save_action.addAction(self.save)
+        self.save_action.addAction(self.new_save)
+
+
 
         #For Edit Option
         self.edit_action = QAction('&Edit', self)
@@ -40,7 +46,8 @@ class App(QWidget):
 
         #command for File menu-options
         self.load_action.triggered.connect(self.loadCsv)
-        self.save_action.triggered.connect(self.saveData)
+        self.save.triggered.connect(self.saveData)
+        self.new_save.triggered.connect(self.saveData)
 
         #command for Edit menu-options
         self.edit_action.triggered.connect(self.editData)
@@ -94,6 +101,8 @@ class App(QWidget):
     def saveData(self):
         #give a pop-up to ask if want to save change in the already existing file
         #or want to save to another file compeletely
+
+        pass
 
 
 app = QApplication(sys.argv)
