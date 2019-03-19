@@ -46,6 +46,7 @@ class App(QWidget):
 
 
         #command for File menu-options
+        self.fileOPened = False
         self.load_action.triggered.connect(self.loadCsv)
         self.save.triggered.connect(lambda: self.saveData(True))
         self.new_save.triggered.connect(lambda: self.saveData(False))
@@ -72,6 +73,7 @@ class App(QWidget):
         self.data = list(csv.reader(fileinput))
         self.row_size = len(self.data)
         self.column_size = max([len(self.data[0]), len(self.data[1]), len(self.data[2])])
+        self.fileOPened = True
         self.createTable()
 
     def createTable(self):
@@ -102,8 +104,15 @@ class App(QWidget):
     def saveData(self, opt):
         #give a pop-up to ask if want to save change in the already existing file
         #or want to save to another file compeletely
-        print(opt)
-        pass
+        if not self.fileOPened:
+            QMessageBox.about(self, "Error", "First Load a .csv File")
+        else:
+            if opt:
+                #save in current file
+                print("Will save in Loaded file itself")
+            else:
+                #save in new file
+                print("Will save in new File")
 
 
 app = QApplication(sys.argv)
