@@ -142,17 +142,16 @@ class App(QWidget):
         if not self.fileOPened:
             QMessageBox.about(self, "Error", "First Load a .csv File")
         else:
-            print(flag)
             if flag=='Col':
+                self.twig.setColumnCount(self.column_size+1)
                 for i in range(self.row_size):
                     self.twig.setItem(i, self.column_size, QTableWidgetItem(""))
                 self.column_size += 1
             elif flag=='Row':
+                self.twig.setRowCount(self.row_size+1)
                 for i in range(self.column_size):
                     self.twig.setItem(self.row_size, i, QTableWidgetItem(""))
                 self.row_size += 1
-            else:
-                QMessageBox.about(self, "Error", "Something is Wrong")
 
 app = QApplication(sys.argv)
 ex = App()
