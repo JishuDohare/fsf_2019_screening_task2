@@ -97,9 +97,12 @@ class App(QWidget):
         # self.twig = QTableWidget()
         # self.twig.setRowCount(self.row_size)
         # self.twig.setColumnCount(self.column_size)
-        for i in range(self.row_size):
-            for j in range(self.column_size):
-                self.twig.setItem(i, j, QTableWidgetItem(self.twig.item(i, j).text()))
+        if not self.fileOPened:
+            QMessageBox.about(self, "Error", "First Load a .csv File")
+        else:
+            for i in range(self.row_size):
+                for j in range(self.column_size):
+                    self.twig.setItem(i, j, QTableWidgetItem(self.twig.item(i, j).text()))
 
     def saveData(self, opt):
         #give a pop-up to ask if want to save change in the already existing file
