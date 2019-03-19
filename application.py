@@ -31,9 +31,9 @@ class App(QWidget):
         self.file.addAction(self.add_data_action)
 
         self.save_action = self.file.addMenu('Save')
-        self.save = QAction('Save Changes in Current File', self)
+        self.save = QAction('Save', self)
         self.save.setShortcut('Ctrl+S')
-        self.new_save = QAction('Save as New File', self)
+        self.new_save = QAction('Save As', self)
         self.new_save.setShortcut('Ctrl+Shift+S')
         self.save_action.addAction(self.save)
         self.save_action.addAction(self.new_save)
@@ -111,22 +111,26 @@ class App(QWidget):
         if not self.fileOPened:
             QMessageBox.about(self, "Error", "First Load a .csv File")
         else:
+            data = []
+            for i in range(self.row_size):
+                rowww = []
+                for j in range(self.column_size):
+                    rowww.append(self.twig.item(i, j).text())
+                data.append(rowww) #data stores all the data row-wise
             if opt:
                 #Will save in Loaded file itself
-                data = []
-                for i in range(self.row_size):
-                    rowww = []
-                    for j in range(self.column_size):
-                        rowww.append(self.twig.item(i, j).text())
-                    print(rowww)
-                    data.append(rowww)
                 with open(self.filename, 'w', newline='') as f:
                     writer = csv.writer(f)
                     writer.writerows(data)
             else:
-                #save in new file
-                print("Will save in new File")
-
+                #Will save in new File
+                path = QFileDialog.getSaveFileName(self, 'Save CSV', os.getenv('HOME'), 'CSV(*.csv)')
+                if path[0]=='':
+                    QMessageBox.about(self, "Error", "Select a Path")
+                else:
+                    with open(path[0], 'w', newline='') as f:
+                        writer = csv.writer(f)
+                        writer.writerows(data)
 
 app = QApplication(sys.argv)
 ex = App()
