@@ -15,10 +15,16 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
 
+        #for plot:
+        self.plot = QAction('&Plot', self)
+        self.plot.setShortcut('Ctrl+Shift+P')
+
+
         #Make MenuBar
         self.bar = QMainWindow(self).menuBar()
         self.file = self.bar.addMenu('File')
         self.edit = self.bar.addMenu('Edit')
+        self.bar.addAction(self.plot)
 
         #For File Option
         self.load_action = QAction('&Load', self)
@@ -59,6 +65,9 @@ class App(QWidget):
 
         #command for Edit menu-options
         self.edit_action.triggered.connect(self.editData)
+
+        #command for Plot
+        self.plot.triggered.connect(self.plotData)
 
 
         # self.createTable()
@@ -152,6 +161,12 @@ class App(QWidget):
                 for i in range(self.column_size):
                     self.twig.setItem(self.row_size, i, QTableWidgetItem(""))
                 self.row_size += 1
+
+    def plotData(self):
+        print("got here")
+        a = QMainWindow()
+        a.setWindowTitle("Dammmmmm")
+        a.show()
 
 app = QApplication(sys.argv)
 ex = App()
