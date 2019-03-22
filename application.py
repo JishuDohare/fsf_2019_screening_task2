@@ -163,10 +163,38 @@ class App(QWidget):
                 self.row_size += 1
 
     def plotData(self):
-        print("got here")
-        a = QMainWindow()
-        a.setWindowTitle("Dammmmmm")
-        a.show()
+        if not self.fileOPened:
+            QMessageBox.about(self, "Error", "First Load a .csv File")
+        elif len(self.data[0]) < 2:
+            QMessageBox.about(self, "Error", "Please select a DataSet which has more than two colums!!!")
+        else:
+            app = QApplication(sys.argv)
+            reference = Plot_Data(self.data)
+            sys.exit(app.exec_())
+
+class Plot_Data(QWidget):
+    def __init__(self, data):
+        super().__init__(Plot_Data, self)
+        self.title = "FOSSEE SCREENING TASK 2 - Ploting Part"
+        self.upleft, self.downleft, self.upright, self.downright = 900, 900, 200, 1000
+        self.data = data
+        self.page()
+
+
+    def page(self):
+        print(self.data)
+        self.lbl = QLabel()
+        self.chx = QCheckBox('Do you like dogs?')
+        self.btn = QPushButton('Push Me!')
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.lbl)
+        layout.addWidget(self.chx)
+        layout.addWidget(self.btn)
+
+        self.setLayout(layout)
+        self.show()
+
 
 app = QApplication(sys.argv)
 ex = App()
