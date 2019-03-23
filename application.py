@@ -1,6 +1,7 @@
 import sys, csv, os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
+from collections import defaultdict as dfd
 
 DATA = None
 
@@ -198,9 +199,23 @@ class Plot_Data(QWidget):
         self.pbox = QComboBox()
         self.btn = QPushButton("PLOT THE GRAPH")
 
+
+        #defaultdict to store the data in form of
+        # dictionary so that it is easy to access
+        # column wise
+        self.dd = dfd(list)
+
         for i in range(len(DATA[0])):
             self.xbox.addItem(DATA[0][i])
             self.ybox.addItem(DATA[0][i])
+            self.dd[DATA[0][i]]
+
+        for i in range(1, len(DATA)):
+            for j in range(len(DATA[i])):
+                self.dd[DATA[0][j]].append(DATA[i][j])
+
+        #print(self.dd)
+
         self.pbox.addItem('Plot Scatter Points')
         self.pbox.addItem('Plot Scatter Points with Smooth Lines')
         self.pbox.addItem('Plot Lines')
@@ -221,6 +236,7 @@ class Plot_Data(QWidget):
         self.v_box.addWidget(self.tabs)
 
         self.tab1, self.tab2, self.tab3 = None, None, None
+
         self.btn.clicked.connect(self.fig)
 
         self.setLayout(self.v_box)
