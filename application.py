@@ -192,20 +192,40 @@ class Plot_Data(QWidget):
 
         self.xl = QLabel("Select the column for X-Axis:")
         self.yl = QLabel("Select the column for Y-Axis:")
+        self.poption = QLabel("Select the Plotting Style:")
         self.xbox = QComboBox()
         self.ybox = QComboBox()
+        self.pbox = QComboBox()
+        self.btn = QPushButton("PLOT THE GRAPH")
+
         for i in range(len(DATA[0])):
             self.xbox.addItem(DATA[0][i])
             self.ybox.addItem(DATA[0][i])
+        self.pbox.addItem('Plot Scatter Points')
+        self.pbox.addItem('Plot Scatter Points with Smooth Lines')
+        self.pbox.addItem('Plot Lines')
+
+
+        self.tabs = QTabWidget()
+        self.tabs.resize(500, 500)
+
 
         self.v_box = QVBoxLayout()
         self.v_box.addWidget(self.xl)
         self.v_box.addWidget(self.xbox)
         self.v_box.addWidget(self.yl)
         self.v_box.addWidget(self.ybox)
+        self.v_box.addWidget(self.poption)
+        self.v_box.addWidget(self.pbox)
+        self.v_box.addWidget(self.btn)
+        self.v_box.addWidget(self.tabs)
+
+        self.btn.clicked.connect(self.fig)
 
         self.setLayout(self.v_box)
 
+    def fig(self):
+        print(self.xbox.currentText())
 
 
 app = QApplication(sys.argv)
