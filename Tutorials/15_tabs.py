@@ -5,8 +5,6 @@ from PyQt5.QtCore import pyqtSlot
 
 
 class App(QMainWindow):
-
-
     def __init__(self):
         super().__init__()
         self.title = 'PyQt5 tabs - pythonspot.com'
@@ -21,7 +19,6 @@ class App(QMainWindow):
         self.setCentralWidget(self.table_widget)
 
         self.show()
-
 
 class MyTableWidget(QWidget):
     def __init__(self, parent):
@@ -46,7 +43,6 @@ class MyTableWidget(QWidget):
         # Add tabs to widget
         self.layout.addWidget(self.tabs)
         self.setLayout(self.layout)
-
 
     @pyqtSlot()
     def on_click(self):

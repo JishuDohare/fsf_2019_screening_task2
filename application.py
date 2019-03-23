@@ -186,8 +186,26 @@ class Plot_Data(QWidget):
         self.initui()
 
     def initui(self):
+        global DATA
         self.setWindowTitle(self.title)
         self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
+
+        self.xl = QLabel("Select the column for X-Axis:")
+        self.yl = QLabel("Select the column for Y-Axis:")
+        self.xbox = QComboBox()
+        self.ybox = QComboBox()
+        for i in range(len(DATA[0])):
+            self.xbox.addItem(DATA[0][i])
+            self.ybox.addItem(DATA[0][i])
+
+        self.v_box = QVBoxLayout()
+        self.v_box.addWidget(self.xl)
+        self.v_box.addWidget(self.xbox)
+        self.v_box.addWidget(self.yl)
+        self.v_box.addWidget(self.ybox)
+
+        self.setLayout(self.v_box)
+
 
 
 app = QApplication(sys.argv)
