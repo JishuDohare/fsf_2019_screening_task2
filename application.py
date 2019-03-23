@@ -177,6 +177,7 @@ class App(QWidget):
             self.reference = Plot_Data()
             self.reference.show()
 
+
 class Plot_Data(QWidget):
     def __init__(self):
         super(Plot_Data, self).__init__()
@@ -187,6 +188,7 @@ class Plot_Data(QWidget):
     def initui(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
+
 
 app = QApplication(sys.argv)
 ex = App()
