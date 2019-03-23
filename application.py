@@ -242,36 +242,35 @@ class Plot_Data(QWidget):
         self.setLayout(self.v_box)
 
     def fig(self):
-        print(self.xbox.currentText())
-        print(self.ybox.currentText())
-        print(self.pbox.currentText())
+        if self.xbox.currentText() == self.ybox.currentText():
+            QMessageBox.about(self, "Error", "Select different Column's for X and Y axes!!!")
+        else:
+            if self.pbox.currentText()=="Scatter Points":
+                if self.tab1 == None:
+                    self.tab1 = QWidget()
+                    self.tabs.addTab(self.tab1, "Scatter Point")
+                    self.tabs.setCurrentWidget(self.tab1)
+                else:
+                    self.tabs.setCurrentWidget(self.tab1)
+                    pass
 
-        if self.pbox.currentText()=="Scatter Points":
-            if self.tab1 == None:
-                self.tab1 = QWidget()
-                self.tabs.addTab(self.tab1, "Scatter Point")
-                self.tabs.setCurrentWidget(self.tab1)
-            else:
-                self.tabs.setCurrentWidget(self.tab1)
-                pass
+            elif self.pbox.currentText()=="Scatter Points with Smooth Lines":
+                if self.tab2 == None:
+                    self.tab2 = QWidget()
+                    self.tabs.addTab(self.tab2, "Scatter Points with Smooth Lines")
+                    self.tabs.setCurrentWidget(self.tab2)
+                else:
+                    self.tabs.setCurrentWidget(self.tab2)
+                    pass
 
-        elif self.pbox.currentText()=="Scatter Points with Smooth Lines":
-            if self.tab2 == None:
-                self.tab2 = QWidget()
-                self.tabs.addTab(self.tab2, "Scatter Points with Smooth Lines")
-                self.tabs.setCurrentWidget(self.tab2)
-            else:
-                self.tabs.setCurrentWidget(self.tab2)
-                pass
-
-        elif self.pbox.currentText()=="Plot Lines":
-            if self.tab3 == None:
-                self.tab3 = QWidget()
-                self.tabs.addTab(self.tab3, "Line Plot")
-                self.tabs.setCurrentWidget(self.tab3)
-            else:
-                self.tabs.setCurrentWidget(self.tab3)
-                pass
+            elif self.pbox.currentText()=="Plot Lines":
+                if self.tab3 == None:
+                    self.tab3 = QWidget()
+                    self.tabs.addTab(self.tab3, "Line Plot")
+                    self.tabs.setCurrentWidget(self.tab3)
+                else:
+                    self.tabs.setCurrentWidget(self.tab3)
+                    pass
 
 
 app = QApplication(sys.argv)
