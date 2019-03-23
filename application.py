@@ -3,6 +3,10 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from collections import defaultdict as dfd
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.pyplot as plt
+
 DATA = None
 
 class App(QWidget):
@@ -248,8 +252,27 @@ class Plot_Data(QWidget):
             if self.pbox.currentText()=="Scatter Points":
                 if self.tab1 == None:
                     self.tab1 = QWidget()
+                    self.tab1.layout = QVBoxLayout(self)
                     self.tabs.addTab(self.tab1, "Scatter Point")
                     self.tabs.setCurrentWidget(self.tab1)
+
+                    #for Scatter Plot
+                    # self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()]
+                    # print(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                    self.figure1 = plt.figure()
+                    self.canvas1 = FigureCanvas(self.figure1)
+                    self.figure1.clear()
+                    ax = self.figure1.add_subplot(111)
+
+                    ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                    self.canvas1.draw()
+
+                    self.tab1.layout.addWidget(self.canvas1)
+                    self.tab1.setLayout(self.tab1.layout)
+
+
+                    # plt.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                    # self.tab1.addWidget(plt.figure())
                 else:
                     self.tabs.setCurrentWidget(self.tab1)
                     pass
