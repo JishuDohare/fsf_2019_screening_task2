@@ -165,6 +165,9 @@ class App(QWidget):
                     self.twig.setItem(self.row_size, i, QTableWidgetItem(""))
                 self.row_size += 1
 
+    def closeEvent(self, event):
+        self.reference = None
+
     def plotData(self):
         if not self.fileOPened:
             QMessageBox.about(self, "Error", "First Load a .csv File")
