@@ -2,6 +2,7 @@ import sys, csv, os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 
+DATA = None
 
 class App(QWidget):
     def __init__(self):
@@ -83,11 +84,13 @@ class App(QWidget):
         self.show()
 
     def loadCsv(self):
+        global DATA
         self.filename = (QFileDialog.getOpenFileName(self, 'Open CSV', os.getenv('HOME'), 'CSV(*.csv)'))[0]
         if self.filename!='':
             self.fileOPened = True
             fileinput = open(self.filename, 'r')
             self.data = list(csv.reader(fileinput))
+            DATA = self.data
             self.row_size = len(self.data)
             self.column_size = max([len(self.data[0]), len(self.data[1]), len(self.data[2])])
             self.createTable()
@@ -168,31 +171,23 @@ class App(QWidget):
         elif len(self.data[0]) < 2:
             QMessageBox.about(self, "Error", "Please select a DataSet which has more than two colums!!!")
         else:
-            app = QApplication(sys.argv)
-            reference = Plot_Data(self.data)
-            sys.exit(app.exec_())
+            APPPP = QApplication(sys.argv)
+            reference = Plot_Data()
+            reference.page()
+            sys.exit(APPPP.exec_())
 
 class Plot_Data(QWidget):
-    def __init__(self, data):
-        super().__init__(Plot_Data, self)
+    def __init__(self):
+        global DATA
+        super().__init__()
         self.title = "FOSSEE SCREENING TASK 2 - Ploting Part"
-        self.upleft, self.downleft, self.upright, self.downright = 900, 900, 200, 1000
-        self.data = data
-        self.page()
-
+        # self.upleft, self.downleft, self.upright, self.downright = 900, 900, 200, 1000
+        self.data = DATA
 
     def page(self):
-        print(self.data)
-        self.lbl = QLabel()
-        self.chx = QCheckBox('Do you like dogs?')
-        self.btn = QPushButton('Push Me!')
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.lbl)
-        layout.addWidget(self.chx)
-        layout.addWidget(self.btn)
-
-        self.setLayout(layout)
+        global DATA
+        print(DATA)
+        self.setWindowTitle(self.title)
         self.show()
 
 
