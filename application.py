@@ -6,7 +6,7 @@ DATA = None
 
 class App(QWidget):
     def __init__(self):
-        super().__init__()
+        super(App, self).__init__()
         self.title = "FOSSEE SCREENING TASK 2"
         self.upleft, self.downleft, self.upright, self.downright = 40, 800, 60, 800
         # self.loadCsv()
@@ -171,24 +171,14 @@ class App(QWidget):
         elif len(self.data[0]) < 2:
             QMessageBox.about(self, "Error", "Please select a DataSet which has more than two colums!!!")
         else:
-            APPPP = QApplication(sys.argv)
-            reference = Plot_Data()
-            reference.page()
-            sys.exit(APPPP.exec_())
+            self.reference = Plot_Data()
+            self.reference.show()
 
 class Plot_Data(QWidget):
     def __init__(self):
-        global DATA
-        super().__init__()
-        self.title = "FOSSEE SCREENING TASK 2 - Ploting Part"
+        super(Plot_Data, self).__init__()
         # self.upleft, self.downleft, self.upright, self.downright = 900, 900, 200, 1000
-        self.data = DATA
-
-    def page(self):
-        global DATA
-        print(DATA)
-        self.setWindowTitle(self.title)
-        self.show()
+        self.lbl = QLabel('Second Window', self)
 
 
 app = QApplication(sys.argv)
