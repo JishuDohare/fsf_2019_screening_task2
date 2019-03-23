@@ -220,12 +220,36 @@ class Plot_Data(QWidget):
         self.v_box.addWidget(self.btn)
         self.v_box.addWidget(self.tabs)
 
+        self.tab1, self.tab2, self.tab3 = None, None, None
         self.btn.clicked.connect(self.fig)
 
         self.setLayout(self.v_box)
 
     def fig(self):
         print(self.xbox.currentText())
+        print(self.ybox.currentText())
+        print(self.pbox.currentText())
+
+        if self.pbox.currentText()=="Plot Scatter Points":
+            if self.tab1 == None:
+                self.tab1 = QWidget()
+                self.tabs.addTab(self.tab1, "Scatter Point")
+            else:
+                pass
+
+        elif self.pbox.currentText()=="Plot Scatter Points with Smooth Lines":
+            if self.tab2 == None:
+                self.tab2 = QWidget()
+                self.tabs.addTab(self.tab2, "Plot Scatter Points with Smooth Lines")
+            else:
+                pass
+
+        elif self.pbox.currentText()=="Plot Lines":
+            if self.tab3 == None:
+                self.tab3 = QWidget()
+                self.tabs.addTab(self.tab3, "Plot Lines")
+            else:
+                pass
 
 
 app = QApplication(sys.argv)
