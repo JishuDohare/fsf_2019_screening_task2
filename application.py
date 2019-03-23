@@ -172,7 +172,7 @@ class App(QWidget):
         if not self.fileOPened:
             QMessageBox.about(self, "Error", "First Load a .csv File")
         elif len(self.data[0]) < 2:
-            QMessageBox.about(self, "Error", "Please select a DataSet which has more than two colums!!!")
+            QMessageBox.about(self, "Error", "Please select a DataSet which has more than One Column!!!")
         else:
             self.reference = Plot_Data()
             self.reference.show()
@@ -180,9 +180,13 @@ class App(QWidget):
 class Plot_Data(QWidget):
     def __init__(self):
         super(Plot_Data, self).__init__()
-        # self.upleft, self.downleft, self.upright, self.downright = 900, 900, 200, 1000
-        self.lbl = QLabel('Second Window', self)
+        self.title = "FOSSEE SCREENING TASK 2 - Ploting Part"
+        self.upleft, self.downleft, self.upright, self.downright = 500, 900, 100, 900
+        self.initui()
 
+    def initui(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
 
 app = QApplication(sys.argv)
 ex = App()
