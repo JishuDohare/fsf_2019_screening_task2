@@ -4,8 +4,9 @@ from PyQt5 import QtCore
 from collections import defaultdict as dfd
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
+import numpy as np
 
 DATA = None
 
@@ -263,17 +264,17 @@ class Plot_Data(QWidget):
                     self.tabs.addTab(self.tab1, "Scatter Point")
                     self.tabs.setCurrentWidget(self.tab1)
 
-                    
-                    self.figure1 = plt.figure()
+
+                    self.figure1 = plt.figure(0)
                     self.canvas1 = FigureCanvas(self.figure1)
                     self.figure1.clear()
-                    ax = self.figure1.add_subplot(111)
+                    self.ax = self.figure1.add_subplot(111)
 
-                    ax.set_title(self.pbox.currentText())
-                    ax.set_xlabel(self.xbox.currentText())
-                    ax.set_ylabel(self.ybox.currentText())
+                    self.ax.set_title(self.pbox.currentText())
+                    self.ax.set_xlabel(self.xbox.currentText())
+                    self.ax.set_ylabel(self.ybox.currentText())
 
-                    ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                    self.ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
                     self.t1x = self.xbox.currentText()
                     self.t1y = self.ybox.currentText()
 
@@ -289,16 +290,16 @@ class Plot_Data(QWidget):
                             self.tab1.layout.itemAt(i).widget().setParent(None)
 
 
-                        self.figure1 = plt.figure()
+                        self.figure1 = plt.figure(0)
                         self.canvas1 = FigureCanvas(self.figure1)
                         self.figure1.clear()
-                        ax = self.figure1.add_subplot(111)
+                        self.ax = self.figure1.add_subplot(111)
 
-                        ax.set_title(self.pbox.currentText())
-                        ax.set_xlabel(self.xbox.currentText())
-                        ax.set_ylabel(self.ybox.currentText())
+                        self.ax.set_title(self.pbox.currentText())
+                        self.ax.set_xlabel(self.xbox.currentText())
+                        self.ax.set_ylabel(self.ybox.currentText())
 
-                        ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                        self.ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
 
                         self.t1x = self.xbox.currentText()
                         self.t1y = self.ybox.currentText()
@@ -308,16 +309,60 @@ class Plot_Data(QWidget):
                         self.tab1.layout.addWidget(self.canvas1)
                         self.tab1.setLayout(self.tab1.layout)
                     else:
+                        print("got here")
                         self.tabs.setCurrentWidget(self.tab1)
 
             elif self.pbox.currentText()=="Scatter Points with Smooth Lines":
                 if self.tab2 == None:
                     self.tab2 = QWidget()
+                    self.tab2.layout = QVBoxLayout(self)
                     self.tabs.addTab(self.tab2, "Scatter Points with Smooth Lines")
                     self.tabs.setCurrentWidget(self.tab2)
+
+                    self.figure2 = plt.figure(1)
+                    self.canvas2 = FigureCanvas(self.figure2)
+                    self.figure2.clear()
+                    self.bx = self.figure2.add_subplot(111)
+
+
+                    self.bx.set_title(self.pbox.currentText())
+                    self.bx.set_xlabel(self.xbox.currentText())
+                    self.bx.set_ylabel(self.ybox.currentText())
+
+
+                    #smothening part
+                    self.x = np.array([int(i) for i in self.dd[self.xbox.currentText()]])
+                    self.y = np.array([int(i) for i in self.dd[self.ybox.currentText()]])
+
+                    print(self.x)
+                    print(self.y)
+
+                    print(min(self.x))
+                    print(max(self.x))
+
+                    self.x_new = np.linspace(min(self.x), max(self.x), 500)
+                    print(self.x_new)
+
+                    self.f = interp1d(self.x, self.y, kind='quadratic')
+                    print("Fine till herre")
+                    self.y_smooth = self.f(self.x_new)
+
+
+                    self.bx.plot(self.x_new, self.y_smooth)
+                    self.bx.scatter(self.x, self.y)
+                    self.t2x = self.xbox.currentText()
+                    self.t2y = self.ybox.currentText()
+
+                    self.canvas2.draw()
+
+                    self.tab2.layout.addWidget(self.canvas2)
+                    self.tab2.setLayout(self.tab2.layout)
+
                 else:
-                    self.tabs.setCurrentWidget(self.tab2)
-                    pass
+                    if self.xbox.currentText() != self.t2x or self.ybox.currentText() != self.t2y:
+                        self.tabs.setCurrentWidget(self.tab2)
+                    else:
+                        self.tabs.setCurrentWidget(self.tab2)
 
             elif self.pbox.currentText()=="Plot Lines":
                 if self.tab3 == None:

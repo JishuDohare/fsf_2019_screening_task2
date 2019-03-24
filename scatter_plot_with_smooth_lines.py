@@ -10,6 +10,8 @@ x_new = np.linspace(x.min(), x.max(),500)
 f = interp1d(x, y, kind='quadratic')
 y_smooth=f(x_new)
 
+print(x_new, y_smooth)
+print(x, y)
 plt.plot (x_new,y_smooth)
 plt.scatter (x, y)
 plt.show()
