@@ -240,6 +240,7 @@ class Plot_Data(QWidget):
         self.v_box.addWidget(self.tabs)
 
         self.tab1, self.tab2, self.tab3 = None, None, None
+        self.t1x, self.t1y, self.t2x, self.t2y, self.t3x, self.t3y = None, None, None, None, None, None
 
         self.btn.clicked.connect(self.fig)
 
@@ -265,6 +266,9 @@ class Plot_Data(QWidget):
                     ax = self.figure1.add_subplot(111)
 
                     ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                    self.t1x = self.xbox.currentText()
+                    self.t1y = self.ybox.currentText()
+
                     self.canvas1.draw()
 
                     self.tab1.layout.addWidget(self.canvas1)
@@ -274,8 +278,30 @@ class Plot_Data(QWidget):
                     # plt.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
                     # self.tab1.addWidget(plt.figure())
                 else:
-                    self.tabs.setCurrentWidget(self.tab1)
-                    pass
+                    if self.xbox.currentText()!=self.t1x or self.ybox.currentText()!=self.t1y:
+                        self.tabs.setCurrentWidget(self.tab1)
+                        for i in reversed(range(self.tab1.layout.count())):
+                            self.tab1.layout.itemAt(i).widget().setParent(None)
+
+
+                        # for Scatter Plot
+                        # self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()]
+                        # print(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                        self.figure1 = plt.figure()
+                        self.canvas1 = FigureCanvas(self.figure1)
+                        self.figure1.clear()
+                        ax = self.figure1.add_subplot(111)
+
+                        ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                        self.t1x = self.xbox.currentText()
+                        self.t1y = self.ybox.currentText()
+
+                        self.canvas1.draw()
+
+                        self.tab1.layout.addWidget(self.canvas1)
+                        self.tab1.setLayout(self.tab1.layout)
+                    else:
+                        self.tabs.setCurrentWidget(self.tab1)
 
             elif self.pbox.currentText()=="Scatter Points with Smooth Lines":
                 if self.tab2 == None:
