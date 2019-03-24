@@ -91,17 +91,23 @@ class App(QWidget):
     def loadCsv(self):
         global DATA
         self.filename = (QFileDialog.getOpenFileName(self, 'Open CSV', os.getenv('HOME'), 'CSV(*.csv)'))[0]
-        if self.filename!='':
-            self.fileOPened = True
+        if self.filename != '':
             fileinput = open(self.filename, 'r')
             self.data = list(csv.reader(fileinput))
             DATA = self.data
             self.row_size = len(self.data)
             self.column_size = max([len(self.data[0]), len(self.data[1]), len(self.data[2])])
-            self.createTable()
+            if not self.fileOPened:
+                self.fileOPened = True
+                self.createTable(True)
+            else:
+                self.createTable(False)
 
-    def createTable(self):
-        self.twig = QTableWidget()
+    def createTable(self, flag):
+        if flag:
+            self.twig = QTableWidget()
+        else:
+            self.twig.setRowCount(0)
         self.twig.setRowCount(self.row_size)
         self.twig.setColumnCount(self.column_size)
         for i in range(self.row_size):
