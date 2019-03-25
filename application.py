@@ -347,20 +347,27 @@ class Plot_Data(QWidget):
                     self.bx.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
 
 
-                    #smothening part
-##                    self.x = np.array([float(i) for i in self.dd[self.xbox.currentText()]])
-##                    self.y = np.array([float(i) for i in self.dd[self.ybox.currentText()]])
+                    self.x = self.dd[self.xbox.currentText()]
+                    self.y = self.dd[self.ybox.currentText()]
 
-                    self.x = np.array(self.dd[self.xbox.currentText()])
-                    self.y = np.array(self.dd[self.ybox.currentText()])
-                    
+                    #To remove - ValueError: Expect x to be a 1-D sorted array_like.
+                    arr = []
+                    for i in range(len(self.x)):
+                        arr.append( (self.x[i], self.y[i]) )
+                    arr.sort()
+
+                    self.x, self.y = [], []
+
+                    brr = []
+                    for i in arr:   
+                        self.x.append(i[0])
+                        self.y.append(i[1])
+
                     print(self.x)
                     print(self.y)
-                    
-                    self.x_new = np.linspace(self.x.min(), self.x.max(), 500)
-                    print("first")
+
+                    self.x_new = np.linspace(min(self.x), max(self.x), 500)
                     self.f = interp1d(self.x, self.y, kind="quadratic") #this line is failing
-                    print("second")
                     self.y_smooth = self.f(self.x_new)
 
 
