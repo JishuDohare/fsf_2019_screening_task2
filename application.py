@@ -1,4 +1,6 @@
-import sys, csv, os
+import sys
+import csv
+import os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from collections import defaultdict as dfd
@@ -463,7 +465,17 @@ class Plot_Data(QWidget):
         if self.tabs.currentIndex() == -1:
             QMessageBox.about(self, "Error", "First Plot a Graph to save as Image in .png format")
         else:
-            print(self.tabs.currentWidget().objectName())
+            current_tab = self.tabs.currentWidget().objectName()
+            fileName = QFileDialog.getSaveFileName(self, 'Save Image', os.getenv('HOME'), 'PNG(*.png)')[0]
+            if fileName == "":
+                QMessageBox.about(self, "Error", "Give Image a Name!!!")
+            else:
+                if current_tab == "tab1":
+                    self.figure1.savefig(fileName)
+                elif current_tab == "tab2":
+                    self.figure2.savefig(fileName)
+                elif current_tab == "tab3":
+                    self.figure3.savefig(fileName)
 
 
 app = QApplication(sys.argv)
