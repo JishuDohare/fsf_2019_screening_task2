@@ -231,9 +231,9 @@ class Plot_Data(QWidget):
 
 ##        print(self.dd)
 
-        self.pbox.addItem('Scatter Points')
-        self.pbox.addItem('Scatter Points with Smooth Lines')
-        self.pbox.addItem('Plot Lines')
+        self.pbox.addItem("Scatter Points")
+        self.pbox.addItem("Scatter Points with Smooth Lines")
+        self.pbox.addItem("Plot Lines")
 
 
         self.tabs = QTabWidget()
@@ -274,9 +274,12 @@ class Plot_Data(QWidget):
                     self.figure1.clear()
                     self.ax = self.figure1.add_subplot(111)
 
-                    self.ax.set_title(self.pbox.currentText())
-                    self.ax.set_xlabel(self.xbox.currentText())
-                    self.ax.set_ylabel(self.ybox.currentText())
+                    self.ax.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
+                    self.ax.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
+                    self.ax.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
+
+                    # self.ax.xaxis.label.set_color("green")
+                    # self.ax.yaxis.label.set_color("blue")
 
                     self.ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
                     self.t1x = self.xbox.currentText()
@@ -299,9 +302,9 @@ class Plot_Data(QWidget):
                         self.figure1.clear()
                         self.ax = self.figure1.add_subplot(111)
 
-                        self.ax.set_title(self.pbox.currentText())
-                        self.ax.set_xlabel(self.xbox.currentText())
-                        self.ax.set_ylabel(self.ybox.currentText())
+                        self.ax.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
+                        self.ax.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
+                        self.ax.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
 
                         self.ax.scatter(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
 
@@ -327,10 +330,9 @@ class Plot_Data(QWidget):
                     self.figure2.clear()
                     self.bx = self.figure2.add_subplot(111)
 
-
-                    self.bx.set_title(self.pbox.currentText())
-                    self.bx.set_xlabel(self.xbox.currentText())
-                    self.bx.set_ylabel(self.ybox.currentText())
+                    self.bx.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
+                    self.bx.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
+                    self.bx.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
 
 
                     #smothening part
@@ -370,9 +372,9 @@ class Plot_Data(QWidget):
                         # self.figure2.clear()
                         # self.bx = self.figure2.add_subplot(111)
                         #
-                        # self.bx.set_title(self.pbox.currentText())
-                        # self.bx.set_xlabel(self.xbox.currentText())
-                        # self.bx.set_ylabel(self.ybox.currentText())
+                        # self.bx.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
+                        # self.bx.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
+                        # self.bx.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
                         #
                         # # smothening part
                         # self.x = np.array([int(i) for i in self.dd[self.xbox.currentText()]])
@@ -406,9 +408,9 @@ class Plot_Data(QWidget):
                     self.figure3.clear()
                     self.cx = self.figure3.add_subplot(111)
 
-                    self.cx.set_title(self.pbox.currentText())
-                    self.cx.set_xlabel(self.xbox.currentText())
-                    self.cx.set_ylabel(self.ybox.currentText())
+                    self.cx.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
+                    self.cx.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
+                    self.cx.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
 
                     self.cx.plot(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
                     self.t3x = self.xbox.currentText()
@@ -422,6 +424,27 @@ class Plot_Data(QWidget):
                     if self.xbox.currentText()!=self.t3x or self.ybox.currentText()!=self.t3y:
                         self.tabs.setCurrentWidget(self.tab3)
 
+                        for i in reversed(range(self.tab3.layout.count())):
+                            self.tab3.layout.itemAt(i).widget().setParent(None)
+
+
+                        self.figure3 = plt.figure(2)
+                        self.canvas3 = FigureCanvas(self.figure3)
+                        self.figure3.clear()
+                        self.cx = self.figure3.add_subplot(111)
+
+                        self.cx.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
+                        self.cx.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
+                        self.cx.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
+
+                        self.cx.plot(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                        self.t3x = self.xbox.currentText()
+                        self.t3y = self.ybox.currentText()
+
+                        self.canvas3.draw()
+
+                        self.tab3.layout.addWidget(self.canvas3)
+                        self.tab3.setLayout(self.tab3.layout)
                     else:
                         self.tabs.setCurrentWidget(self.tab3)
 
