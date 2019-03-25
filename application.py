@@ -350,7 +350,14 @@ class Plot_Data(QWidget):
                     self.x = self.dd[self.xbox.currentText()]
                     self.y = self.dd[self.ybox.currentText()]
 
-                    #To remove - ValueError: Expect x to be a 1-D sorted array_like.
+
+
+
+                    #################################################################
+                    #To remove - ValueError: Expect x to be a 1-D sorted array_like.#
+                    ##############################################################3##
+
+
                     arr = []
                     for i in range(len(self.x)):
                         arr.append( (self.x[i], self.y[i]) )
@@ -359,12 +366,13 @@ class Plot_Data(QWidget):
                     self.x, self.y = [], []
 
                     brr = []
-                    for i in arr:   
-                        self.x.append(i[0])
-                        self.y.append(i[1])
+                    last = None
+                    for i in range(len(arr)):
+                        if last!=arr[i][0]:
+                            self.x.append(arr[i][0])
+                            self.y.append(arr[i][1])
+                            last = arr[i][0]
 
-                    print(self.x)
-                    print(self.y)
 
                     self.x_new = np.linspace(min(self.x), max(self.x), 500)
                     self.f = interp1d(self.x, self.y, kind="quadratic") #this line is failing
@@ -383,9 +391,9 @@ class Plot_Data(QWidget):
                 else:
                     if self.xbox.currentText() != self.t2x or self.ybox.currentText() != self.t2y:
                         self.tabs.setCurrentWidget(self.tab2)
-                        # for i in reversed(range(self.tab2.layout.count())):
-                        #     self.tab2.layout.itemAt(i).widget().setParent(None)
-                        #
+                        for i in reversed(range(self.tab2.layout.count())):
+                            self.tab2.layout.itemAt(i).widget().setParent(None)
+
                         # self.figure2 = plt.figure(1)
                         # self.canvas2 = FigureCanvas(self.figure2)
                         # self.figure2.clear()
