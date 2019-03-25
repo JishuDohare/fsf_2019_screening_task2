@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import sys, csv, os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -7,6 +9,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 import numpy as np
+import pandas as pd
 
 DATA = None
 
@@ -223,9 +226,10 @@ class Plot_Data(QWidget):
 
         for i in range(1, len(DATA)):
             for j in range(len(DATA[i])):
-                self.dd[DATA[0][j]].append(DATA[i][j])
+                try:self.dd[DATA[0][j]].append( float(DATA[i][j]))
+                except:pass
 
-        #print(self.dd)
+##        print(self.dd)
 
         self.pbox.addItem('Scatter Points')
         self.pbox.addItem('Scatter Points with Smooth Lines')
@@ -309,7 +313,6 @@ class Plot_Data(QWidget):
                         self.tab1.layout.addWidget(self.canvas1)
                         self.tab1.setLayout(self.tab1.layout)
                     else:
-                        print("got here")
                         self.tabs.setCurrentWidget(self.tab1)
 
             elif self.pbox.currentText()=="Scatter Points with Smooth Lines":
@@ -331,20 +334,19 @@ class Plot_Data(QWidget):
 
 
                     #smothening part
-                    self.x = np.array([int(i) for i in self.dd[self.xbox.currentText()]])
-                    self.y = np.array([int(i) for i in self.dd[self.ybox.currentText()]])
+##                    self.x = np.array([float(i) for i in self.dd[self.xbox.currentText()]])
+##                    self.y = np.array([float(i) for i in self.dd[self.ybox.currentText()]])
 
+                    self.x = np.array(self.dd[self.xbox.currentText()])
+                    self.y = np.array(self.dd[self.ybox.currentText()])
+                    
                     print(self.x)
                     print(self.y)
-
-                    print(min(self.x))
-                    print(max(self.x))
-
-                    self.x_new = np.linspace(min(self.x), max(self.x), 500)
-                    print(self.x_new)
-
-                    self.f = interp1d(self.x, self.y, kind='quadratic')
-                    print("Fine till herre")
+                    
+                    self.x_new = np.linspace(self.x.min(), self.x.max(), 500)
+                    print("first")
+                    self.f = interp1d(self.x, self.y, kind="quadratic") #this line is failing
+                    print("second")
                     self.y_smooth = self.f(self.x_new)
 
 
@@ -357,21 +359,71 @@ class Plot_Data(QWidget):
 
                     self.tab2.layout.addWidget(self.canvas2)
                     self.tab2.setLayout(self.tab2.layout)
-
                 else:
                     if self.xbox.currentText() != self.t2x or self.ybox.currentText() != self.t2y:
                         self.tabs.setCurrentWidget(self.tab2)
+                        # for i in reversed(range(self.tab2.layout.count())):
+                        #     self.tab2.layout.itemAt(i).widget().setParent(None)
+                        #
+                        # self.figure2 = plt.figure(1)
+                        # self.canvas2 = FigureCanvas(self.figure2)
+                        # self.figure2.clear()
+                        # self.bx = self.figure2.add_subplot(111)
+                        #
+                        # self.bx.set_title(self.pbox.currentText())
+                        # self.bx.set_xlabel(self.xbox.currentText())
+                        # self.bx.set_ylabel(self.ybox.currentText())
+                        #
+                        # # smothening part
+                        # self.x = np.array([int(i) for i in self.dd[self.xbox.currentText()]])
+                        # self.y = np.array([int(i) for i in self.dd[self.ybox.currentText()]])
+                        #
+                        # self.x_new = np.linspace(min(self.x), max(self.x), 500)
+                        # self.f = interp1d(self.x, self.y, kind='quadratic')
+                        # self.y_smooth = self.f(self.x_new)
+                        #
+                        # self.bx.plot(self.x_new, self.y_smooth)
+                        # self.bx.scatter(self.x, self.y)
+                        # self.t2x = self.xbox.currentText()
+                        # self.t2y = self.ybox.currentText()
+                        #
+                        # self.canvas2.draw()
+                        #
+                        # self.tab2.layout.addWidget(self.canvas2)
+                        # self.tab2.setLayout(self.tab2.layout)
                     else:
                         self.tabs.setCurrentWidget(self.tab2)
 
             elif self.pbox.currentText()=="Plot Lines":
                 if self.tab3 == None:
                     self.tab3 = QWidget()
+                    self.tab3.layout = QVBoxLayout(self)
                     self.tabs.addTab(self.tab3, "Line Plot")
                     self.tabs.setCurrentWidget(self.tab3)
+
+                    self.figure3 = plt.figure(2)
+                    self.canvas3 = FigureCanvas(self.figure3)
+                    self.figure3.clear()
+                    self.cx = self.figure3.add_subplot(111)
+
+                    self.cx.set_title(self.pbox.currentText())
+                    self.cx.set_xlabel(self.xbox.currentText())
+                    self.cx.set_ylabel(self.ybox.currentText())
+
+                    self.cx.plot(self.dd[self.xbox.currentText()], self.dd[self.ybox.currentText()])
+                    self.t3x = self.xbox.currentText()
+                    self.t3y = self.ybox.currentText()
+
+                    self.canvas3.draw()
+
+                    self.tab3.layout.addWidget(self.canvas3)
+                    self.tab3.setLayout(self.tab3.layout)
                 else:
-                    self.tabs.setCurrentWidget(self.tab3)
-                    pass
+                    if self.xbox.currentText()!=self.t3x or self.ybox.currentText()!=self.t3y:
+                        self.tabs.setCurrentWidget(self.tab3)
+
+                    else:
+                        self.tabs.setCurrentWidget(self.tab3)
 
 
 app = QApplication(sys.argv)
