@@ -1,5 +1,3 @@
-#! /usr/bin/env python
-
 import sys, csv, os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -205,6 +203,15 @@ class Plot_Data(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
 
+
+        self.plot_bar = QMainWindow(self).menuBar()
+        self.plot_file = self.plot_bar.addMenu('File')
+        self.plot_save_action = QAction('&Save as png', self)
+        self.plot_save_action.triggered.connect(self.savePNG)
+        # self.plot_save_action.setShortcut('Ctrl+S')
+        self.plot_file.addAction(self.plot_save_action)
+
+
         self.xl = QLabel("Select the column for X-Axis:")
         self.yl = QLabel("Select the column for Y-Axis:")
         self.poption = QLabel("Select the Plotting Style:")
@@ -241,6 +248,7 @@ class Plot_Data(QWidget):
 
 
         self.v_box = QVBoxLayout()
+        self.v_box.addWidget(self.plot_bar)
         self.v_box.addWidget(self.xl)
         self.v_box.addWidget(self.xbox)
         self.v_box.addWidget(self.yl)
@@ -263,7 +271,9 @@ class Plot_Data(QWidget):
         else:
             if self.pbox.currentText()=="Scatter Points":
                 if self.tab1 == None:
+
                     self.tab1 = QWidget()
+                    self.tab1.setObjectName("tab1")
                     self.tab1.layout = QVBoxLayout(self)
                     self.tabs.addTab(self.tab1, "Scatter Point")
                     self.tabs.setCurrentWidget(self.tab1)
@@ -289,7 +299,6 @@ class Plot_Data(QWidget):
 
                     self.tab1.layout.addWidget(self.canvas1)
                     self.tab1.setLayout(self.tab1.layout)
-
                 else:
                     if self.xbox.currentText()!=self.t1x or self.ybox.currentText()!=self.t1y:
                         self.tabs.setCurrentWidget(self.tab1)
@@ -321,6 +330,7 @@ class Plot_Data(QWidget):
             elif self.pbox.currentText()=="Scatter Points with Smooth Lines":
                 if self.tab2 == None:
                     self.tab2 = QWidget()
+                    self.tab2.setObjectName("tab2")
                     self.tab2.layout = QVBoxLayout(self)
                     self.tabs.addTab(self.tab2, "Scatter Points with Smooth Lines")
                     self.tabs.setCurrentWidget(self.tab2)
@@ -399,6 +409,7 @@ class Plot_Data(QWidget):
             elif self.pbox.currentText()=="Plot Lines":
                 if self.tab3 == None:
                     self.tab3 = QWidget()
+                    self.tab3.setObjectName("tab3")
                     self.tab3.layout = QVBoxLayout(self)
                     self.tabs.addTab(self.tab3, "Line Plot")
                     self.tabs.setCurrentWidget(self.tab3)
@@ -447,6 +458,12 @@ class Plot_Data(QWidget):
                         self.tab3.setLayout(self.tab3.layout)
                     else:
                         self.tabs.setCurrentWidget(self.tab3)
+
+    def savePNG(self):
+        if self.tabs.currentIndex() == -1:
+            QMessageBox.about(self, "Error", "First Plot a Graph to save as Image in .png format")
+        else:
+            print(self.tabs.currentWidget().objectName())
 
 
 app = QApplication(sys.argv)
