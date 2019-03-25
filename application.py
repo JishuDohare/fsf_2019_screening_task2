@@ -394,32 +394,51 @@ class Plot_Data(QWidget):
                         for i in reversed(range(self.tab2.layout.count())):
                             self.tab2.layout.itemAt(i).widget().setParent(None)
 
-                        # self.figure2 = plt.figure(1)
-                        # self.canvas2 = FigureCanvas(self.figure2)
-                        # self.figure2.clear()
-                        # self.bx = self.figure2.add_subplot(111)
-                        #
-                        # self.bx.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
-                        # self.bx.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
-                        # self.bx.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
-                        #
-                        # # smothening part
-                        # self.x = np.array([int(i) for i in self.dd[self.xbox.currentText()]])
-                        # self.y = np.array([int(i) for i in self.dd[self.ybox.currentText()]])
-                        #
-                        # self.x_new = np.linspace(min(self.x), max(self.x), 500)
-                        # self.f = interp1d(self.x, self.y, kind='quadratic')
-                        # self.y_smooth = self.f(self.x_new)
-                        #
-                        # self.bx.plot(self.x_new, self.y_smooth)
-                        # self.bx.scatter(self.x, self.y)
-                        # self.t2x = self.xbox.currentText()
-                        # self.t2y = self.ybox.currentText()
-                        #
-                        # self.canvas2.draw()
-                        #
-                        # self.tab2.layout.addWidget(self.canvas2)
-                        # self.tab2.setLayout(self.tab2.layout)
+                        self.figure2 = plt.figure(1)
+                        self.canvas2 = FigureCanvas(self.figure2)
+                        self.figure2.clear()
+                        self.bx = self.figure2.add_subplot(111)
+
+                        self.bx.set_title(r"$\bf{" + self.pbox.currentText() + "}$")
+                        self.bx.set_xlabel(r"$\bf{" + self.xbox.currentText() + "}$")
+                        self.bx.set_ylabel(r"$\bf{" + self.ybox.currentText() + "}$")
+
+                        self.x = self.dd[self.xbox.currentText()]
+                        self.y = self.dd[self.ybox.currentText()]
+
+                        #################################################################
+                        # To remove - ValueError: Expect x to be a 1-D sorted array_like.#
+                        ##############################################################3##
+
+
+                        arr = []
+                        for i in range(len(self.x)):
+                            arr.append((self.x[i], self.y[i]))
+                        arr.sort()
+
+                        self.x, self.y = [], []
+
+                        brr = []
+                        last = None
+                        for i in range(len(arr)):
+                            if last != arr[i][0]:
+                                self.x.append(arr[i][0])
+                                self.y.append(arr[i][1])
+                                last = arr[i][0]
+
+                        self.x_new = np.linspace(min(self.x), max(self.x), 500)
+                        self.f = interp1d(self.x, self.y, kind="quadratic")  # this line is failing
+                        self.y_smooth = self.f(self.x_new)
+
+                        self.bx.plot(self.x_new, self.y_smooth)
+                        self.bx.scatter(self.x, self.y)
+                        self.t2x = self.xbox.currentText()
+                        self.t2y = self.ybox.currentText()
+
+                        self.canvas2.draw()
+
+                        self.tab2.layout.addWidget(self.canvas2)
+                        self.tab2.setLayout(self.tab2.layout)
                     else:
                         self.tabs.setCurrentWidget(self.tab2)
 
