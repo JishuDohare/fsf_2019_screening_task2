@@ -1,6 +1,4 @@
-import sys
-import csv
-import os
+import sys, csv, os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from collections import defaultdict as dfd
@@ -9,7 +7,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 import numpy as np
-import pandas as pd
 
 DATA = None
 
@@ -18,14 +15,13 @@ class App(QWidget):
         super(App, self).__init__()
         self.title = "FOSSEE SCREENING TASK 2"
         self.upleft, self.downleft, self.upright, self.downright = 40, 800, 60, 800
-        # self.loadCsv()
         self.initUI()
 
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.upleft, self.upright, self.downleft, self.downright)
 
-        #for plot:
+        #for plot
         self.plot = QAction('&Plot', self)
         self.plot.setShortcut('Ctrl+Shift+P')
 
@@ -80,15 +76,10 @@ class App(QWidget):
         self.plot.triggered.connect(self.plotData)
 
 
-        # self.createTable()
-        # self.loadbtn = QPushButton(self)
-        # self.loadbtn.setText("Load the csv file")
-        # self.loadbtn.clicked.connect(self.loadCsv)
+
 
         self.layout = QVBoxLayout()
-        # self.layout.addWidget(self.loadbtn)
         self.layout.addWidget(self.bar)
-        # self.layout.addWidget(self.twig)
         self.setLayout(self.layout)
         self.show()
 
@@ -128,9 +119,6 @@ class App(QWidget):
         self.show()
 
     def editData(self):
-        # self.twig = QTableWidget()
-        # self.twig.setRowCount(self.row_size)
-        # self.twig.setColumnCount(self.column_size)
         if not self.fileOPened:
             QMessageBox.about(self, "Error", "First Load a .csv File")
         else:
@@ -210,7 +198,7 @@ class Plot_Data(QWidget):
         self.plot_file = self.plot_bar.addMenu('File')
         self.plot_save_action = QAction('&Save as png', self)
         self.plot_save_action.triggered.connect(self.savePNG)
-        # self.plot_save_action.setShortcut('Ctrl+S')
+        self.plot_save_action.setShortcut('Ctrl+S')
         self.plot_file.addAction(self.plot_save_action)
 
 
