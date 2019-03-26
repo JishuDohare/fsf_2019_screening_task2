@@ -2,7 +2,7 @@
 Project for FOSSEE internship
 <br>
 <br>
-Learned PyQt5 from scrath through youtube videos and OOPS concept of Python for the Develpment of this application.
+Learned PyQt5 from scratch through youtube videos and OOPS concept of Python for the Develpment of this application.
 <br>
 Words such as "self.", "super().&lowbar;&lowbar;init__()", "&lowbar;&lowbar;intit__()", etc. were totally alienn to me.
 <br>
