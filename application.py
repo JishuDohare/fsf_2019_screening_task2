@@ -1,3 +1,6 @@
+"""
+Written by - JISHU DOHARE
+"""
 import sys, csv, os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -503,3 +506,6 @@ class Plot_Data(QWidget):
 app = QApplication(sys.argv)
 ex = App()
 sys.exit(app.exec_())
+"""
+Written by - JISHU DOHARE
+"""
